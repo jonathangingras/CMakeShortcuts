@@ -1,0 +1,30 @@
+include(ExternalProject)
+
+if(NOT EXTERNAL_PROJECT_INSTALL_PREFIX)
+  set(EXTERNAL_PROJECT_INSTALL_PREFIX_PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/extern-private")
+  set(EXTERNAL_PROJECT_INSTALL_PREFIX_PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/extern-public")
+endif()
+
+function(ExternalProject_add_private)
+  ExternalProject_add(
+    ${ARGV}
+    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${EXTERNAL_PROJECT_INSTALL_PREFIX_PRIVATE}"
+    UPDATE_COMMAND ""
+    )
+
+  include_directories(${EXTERNAL_PROJECT_INSTALL_PREFIX_PRIVATE}/include)
+  link_directories(${EXTERNAL_PROJECT_INSTALL_PREFIX_PRIVATE}/lib)
+endfunction()
+
+function(ExternalProject_add_public)
+  ExternalProject_add(
+    ${ARGV}
+    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${EXTERNAL_PROJECT_INSTALL_PREFIX_PUBLIC}"
+    UPDATE_COMMAND ""
+    )
+
+  include_directories(${EXTERNAL_PROJECT_INSTALL_PREFIX_PUBLIC}/include)
+  link_directories(${EXTERNAL_PROJECT_INSTALL_PREFIX_PUBLIC}/lib)
+
+  install(DIRECTORY ${EXTERNAL_PROJECT_INSTALL_PREFIX_PUBLIC}/ DESTINATION ${CMAKE_INSTALL_PREFIX} USE_SOURCE_PERMISSIONS)
+endfunction()

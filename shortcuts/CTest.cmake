@@ -1,7 +1,4 @@
-if(BUILD_TESTING)
-  include(CTest)
-  enable_testing()
-endif()
+include(CTest)
 
 function(add_test_executable target)
   add_executable(${ARGV})
@@ -10,6 +7,7 @@ endfunction()
 
 function(add_test_subdirectory)
   if(BUILD_TESTING)
+    enable_testing()
     add_subdirectory(${ARGV})
   endif()
 endfunction()

@@ -6,9 +6,11 @@ if(NOT EXTERNAL_PROJECT_INSTALL_PREFIX)
 endif()
 
 function(ExternalProject_add_private)
+  cmake_parse_arguments(PARSED "" "" "CMAKE_ARGS" ${ARGN})
+
   ExternalProject_add(
-    ${ARGV}
-    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${EXTERNAL_PROJECT_INSTALL_PREFIX_PRIVATE}"
+    ${ARGN}
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_PROJECT_INSTALL_PREFIX_PRIVATE} ${PARSED_CMAKE_ARGS}
     UPDATE_COMMAND ""
     )
 
@@ -17,9 +19,11 @@ function(ExternalProject_add_private)
 endfunction()
 
 function(ExternalProject_add_public)
+  cmake_parse_arguments(PARSED "" "" "CMAKE_ARGS" ${ARGN})
+
   ExternalProject_add(
-    ${ARGV}
-    CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${EXTERNAL_PROJECT_INSTALL_PREFIX_PUBLIC}"
+    ${ARGN}
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EXTERNAL_PROJECT_INSTALL_PREFIX_PUBLIC} ${PARSED_CMAKE_ARGS}
     UPDATE_COMMAND ""
     )
 
